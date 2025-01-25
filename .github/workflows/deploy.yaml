@@ -6,9 +6,12 @@ on:
   #     - main
   #     - develop
   #   paths:
-  #     - 'app/**'
-  #     - '.github/workflows/**'
+  #     - 'src/**'
   workflow_dispatch:
+
+permissions:
+    id-token: write
+    contents: read
 
 env:
   IMAGE_NAME: webapp
@@ -30,20 +33,16 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Build and push Docker image
-        uses: azure/docker-login@v1
-        with:
-          login-server: ${{ secrets.ACR_SERVER }}
-          username: ${{ secrets.ACR_USERNAME }}
-          password: ${{ secrets.ACR_PASSWORD }}
+      - name: Signin to Azure Container Registry
+        run: |
+          az acr login --name ${{ secrets.ACR_SERVER }}
 
-      - name: Build and push container image to registry
-        uses: docker/build-push-action@v3
-        with:
-          context: ./app
-          file: ./app/Dockerfile
-          push: true
-          tags: ${{ secrets.ACR_SERVER }}/${{ secrets.IMAGE_NAME }}:${{ github.sha }}
+      - name: Build and push container image to Azure Container Registry
+        run: |
+          az acr build \
+            --registry ${{ secrets.ACR_SERVER }} \
+            --image ${{ secrets.ACR_SERVER }}/${{ env.IMAGE_NAME }}:${{ github.sha }} \
+            . 
 
   deploy:
     runs-on: ubuntu-latest
@@ -60,5 +59,4 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ secrets.WEBAPP_NAME }}
-          slot-name: 'production'
           images: ${{ secrets.ACR_SERVER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
