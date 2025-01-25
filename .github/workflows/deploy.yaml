@@ -39,12 +39,11 @@ jobs:
           az acr login --name ${{ secrets.ACR_SERVER }}
 
       - name: Build and push container image to registry
-        uses: docker/build-push-action@v3
-        with:
-          context: ./
-          file: ./Dockerfile
-          push: true
-          tags: ${{ secrets.ACR_SERVER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+        run: |
+          az acr build \
+            --registry ${{ secrets.ACR_SERVER }} \
+            --image ${{ secrets.ACR_SERVER }}/${{ env.IMAGE_NAME }}:${{ github.sha }} \
+            . 
 
   deploy:
     runs-on: ubuntu-latest
