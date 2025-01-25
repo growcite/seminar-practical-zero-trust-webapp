@@ -43,7 +43,7 @@ jobs:
           context: ./app
           file: ./app/Dockerfile
           push: true
-          tags: ${{ secrets.ACR_SERVER }}/${{ secrets.IMAGE_NAME }}:${{ github.sha }}
+          tags: ${{ secrets.ACR_SERVER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
   deploy:
     runs-on: ubuntu-latest
