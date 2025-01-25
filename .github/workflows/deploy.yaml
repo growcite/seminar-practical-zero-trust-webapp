@@ -6,7 +6,7 @@ on:
   #     - main
   #     - develop
   #   paths:
-  #     - 'app/**'
+  #     - 'src/**'
   #     - '.github/workflows/**'
   workflow_dispatch:
 
