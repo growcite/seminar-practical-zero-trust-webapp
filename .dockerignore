@@ -1,0 +1,23 @@
+# Logs
+logs
+*.log
+
+# Dependency directories
+node_modules/
+
+# dotenv environment variable files
+.env
+.env.*.local
+.env.local
+
+# Output / build / generate output
+out
+dist
+
+# Cache
+.cache/
+cache/
+
+# Work
+_work/
+_tmp/
