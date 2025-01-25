@@ -38,7 +38,7 @@ jobs:
         run: |
           az acr login --name ${{ secrets.ACR_SERVER }}
 
-      - name: Build and push container image to registry
+      - name: Build and push container image to Azure Container Registry
         run: |
           az acr build \
             --registry ${{ secrets.ACR_SERVER }} \
