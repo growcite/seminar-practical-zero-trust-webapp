@@ -10,6 +10,10 @@ on:
   #     - '.github/workflows/**'
   workflow_dispatch:
 
+permissions:
+    id-token: write
+    contents: read
+
 env:
   IMAGE_NAME: webapp
 
