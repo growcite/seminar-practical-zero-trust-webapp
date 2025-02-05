@@ -60,7 +60,7 @@ jobs:
           az containerapp update \
             --resource-group ${{ secrets.RG_NAME }} \
             --name ${{ secrets.ACA_NAME }} \
-            --image ${{ secrets.ACR_SERVER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+            --image ${{ secrets.ACR_SERVER }}/${{ env.IMAGE_NAME }}:${{ github.sha }} \
             --cpu 0.5 \
             --memory 1
 
