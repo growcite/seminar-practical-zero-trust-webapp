@@ -57,7 +57,7 @@ jobs:
 
       - name: Build and deploy Container App
         run: |
-          az container app update \
+          az containerapp update \
             --name ${{ secrets.ACA_NAME }} \
             --image ${{ secrets.ACR_SERVER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
